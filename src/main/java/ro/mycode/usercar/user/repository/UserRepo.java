@@ -27,6 +27,7 @@ public interface UserRepo extends JpaRepository<User,Long> {
     Optional<User>findUserByNumeAndVarsta(String nume, int varsta);
 
     @Query("select u from User u where u.nume= ?1 ")
+    @EntityGraph(attributePaths = {"cars"}, type = EntityGraph.EntityGraphType.LOAD)
     Optional<User>findUserByNume(String nume);
 
     @Modifying

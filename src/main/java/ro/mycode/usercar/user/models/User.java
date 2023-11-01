@@ -28,6 +28,24 @@ public class User implements Comparable<User> {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Car> cars = new ArrayList<>();
 
+
+
+
+    public void addCar(Car car){
+
+
+        this.cars.add(car);
+
+        car.setUser(this);
+
+    }
+
+    public void deleteCar(Car car){
+        if(this.cars.contains(car)){
+            this.cars.remove(car);
+            car.setUser(null);
+        }
+    }
     @Override
     public String toString() {
         return "User{" +

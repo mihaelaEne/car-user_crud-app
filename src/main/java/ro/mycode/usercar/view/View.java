@@ -18,6 +18,10 @@ public class View {
     private Scanner scanner;
     private UserRepo userRepo;
 
+    private CarRepo carRepo;
+
+    private User user;
+
 
     public View(UserRepo userRepo, CarRepo carRepo) {
         this.userRepo = userRepo;
@@ -31,48 +35,48 @@ public class View {
         System.out.println("1-toti users");
         System.out.println("2-toate masinile");
         System.out.println("3-adauga un user");
-        System.out.println("4-adauga o masina ");
+        System.out.println("4-addCar");
         System.out.println("5-sterge un user");
-        System.out.println("6-sterge o masina");
+        System.out.println("6-delete car");
         System.out.println("7-modifica un user ");
-        System.out.println("8-modifica o masina");
 
 
     }
 
     public void play() {
-        int aux = 0;
+        int alegere = 0;
         boolean running = true;
 
         while (running) {
             meniu();
-            aux = Integer.parseInt(scanner.nextLine());
+            alegere = Integer.parseInt(scanner.nextLine());
 
-            switch (aux) {
+            switch (alegere) {
                 case 1:
                     afisareUser();
                     break;
                 case 2:
                     afisareCar();
                     break;
+
                 case 3:
                     adaugaUser();
                     break;
                 case 4:
-                    adaugaCar();
+                    addCar();
                     break;
+
                 case 5:
                     stergereUser();
                     break;
+
                 case 6:
-                    stergereMasina();
+                    deleteCar();
                     break;
                 case 7:
                     updateUser();
                     break;
-                case 8:
-                    updateMasina();
-                    break;
+
 
                 default:
                     System.out.println("Alegerea este gresita!");
@@ -86,7 +90,11 @@ public class View {
         });
     }
 
-
+    public void afisareCar() {
+        this.carRepo.findAll().forEach(car -> {
+            System.out.println(car);
+        });
+    }
 
     @Transactional
     public void adaugaUser() {
@@ -102,11 +110,7 @@ public class View {
 
         userRepo.saveAndFlush(user);
         System.out.println("Userul a fost adaugat cu succes");
-
     }
-
-
-
 
     @Transactional
     public void stergereUser() {
@@ -127,11 +131,9 @@ public class View {
     }
 
 
-    
-
     @Transactional
     public void updateUser() {
-        System.out.println("Introduceti numele si varsta");
+        System.out.println("Introduceti numele ");
         System.out.println("Nume: ");
         String nume = scanner.nextLine();
 
@@ -156,25 +158,64 @@ public class View {
 
 
     @Transactional
-    public void updateMasina() {
-        System.out.println("Introduceti marca si pretul");
-        System.out.println("Marca: ");
-        String marca = scanner.nextLine();
+    public void addCar() {
+        System.out.println("Introduceti numele ");
+        System.out.println("Nume: ");
+        String nume = scanner.nextLine();
 
-        Optional<Car> car = carRepo.findCarByMarca(marca);
-
-        if (car.isPresent()) {
-            System.out.println("Noul pret este: ");
+        Optional<User> searchedUser = userRepo.findUserByNume(nume);
+        if (searchedUser.isPresent()) {
+            this.user = searchedUser.get();
+            System.out.println("Introduceti marca: ");
+            String marca = scanner.nextLine();
+            System.out.println("Introduceti pretul: ");
             int pret = Integer.parseInt(scanner.nextLine());
 
-            Car car1 = car.get();
-            car1.setPret(pret);
 
-            carRepo.saveAndFlush(car1);
-            System.out.println("Pretul a fost actualizat");
+            Car car1 = Car.builder()
+                    .marca(marca)
+                    .pret(pret)
+                    .build();
+
+
+            this.user.addCar(car1);
+
+
+            this.userRepo.saveAndFlush(user);
+
         } else {
-            System.out.println("Nu exista o masina cu datele introduse in baza de date");
+            System.out.println("Userul nu exista ");
         }
+
+
     }
+
+    @Transactional
+    public void deleteCar() {
+        System.out.println("Introduceti numele ");
+        System.out.println("Nume: ");
+        String nume = scanner.nextLine();
+
+        Optional<User> searchedUser = userRepo.findUserByNume(nume);
+        if (searchedUser.isPresent()) {
+            this.user = searchedUser.get();
+            System.out.println("Introduceti marca: ");
+            String marca = scanner.nextLine();
+
+            Optional<Car> serachedCar = carRepo.findCarByMarca(marca);
+            if (serachedCar.isPresent()) {
+                carRepo.delete(serachedCar.get());
+                System.out.println("Masina a fost stearsa de pe lista userului");
+            } else {
+                System.out.println("Masina nu exista");
+            }
+
+        } else {
+            System.out.println("Userul nu exista ");
+        }
+
+
+    }
+
 
 }

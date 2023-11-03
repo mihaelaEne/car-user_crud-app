@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import ro.mycode.usercar.car.repository.CarRepo;
 import ro.mycode.usercar.user.repository.UserRepo;
+import ro.mycode.usercar.user.service.UserService;
 import ro.mycode.usercar.view.View;
 
 @SpringBootApplication
@@ -20,6 +21,9 @@ public class UserCarApplication {
         return args -> {
 
         view.play();
+
+
+
 
 //            userRepo.getAllUsers().stream().forEach(user -> {
 //

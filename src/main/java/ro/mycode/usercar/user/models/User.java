@@ -34,7 +34,6 @@ public class User implements Comparable<User> {
 
     public void addCar(Car car){
 
-
         this.cars.add(car);
 
         car.setUser(this);

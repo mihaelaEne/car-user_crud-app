@@ -17,13 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @NoArgsConstructor
-
 public class User implements Comparable<User> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private long id;
     private String nume;
     private int varsta;
+    private String username;
+    private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Car> cars = new ArrayList<>();
@@ -46,12 +47,15 @@ public class User implements Comparable<User> {
             car.setUser(null);
         }
     }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", nume='" + nume + '\'' +
                 ", varsta=" + varsta +
+                ", username='" + username + '\'' +
+                ", password='" + password +
                 '}';
     }
 

@@ -31,7 +31,7 @@ public interface UserRepo extends JpaRepository<User,Long> {
     Optional<User>findUserByNume(String nume);
 
     @Modifying
-    @Query("update User u set u.varsta= ?2 where u.nume= ?1")
-    void updateUser(String nume, int varsta);
+    @Query("update User u set u.password= ?4, u.username= ?3, u.varsta= ?2 where u.nume= ?1")
+    void updateUser(String nume, int varsta, String username, String password);
 
 }

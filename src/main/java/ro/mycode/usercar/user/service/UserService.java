@@ -2,10 +2,8 @@ package ro.mycode.usercar.user.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import ro.mycode.usercar.car.models.Car;
-import ro.mycode.usercar.car.repository.CarRepo;
-import ro.mycode.usercar.user.dtos.CreateCarRequest;
 import ro.mycode.usercar.user.dtos.CreateUserRequest;
+import ro.mycode.usercar.user.dtos.CreateUserResponse;
 import ro.mycode.usercar.user.dtos.UpdateUserRequest;
 import ro.mycode.usercar.user.exceptions.NoUpdate;
 import ro.mycode.usercar.user.exceptions.UserDoesntExistException;
@@ -38,7 +36,7 @@ public class UserService {
 
 
     @Transactional
-    public void addUser(CreateUserRequest createUserRequest) {
+    public CreateUserResponse addUser(CreateUserRequest createUserRequest) {
 
         //verificam daca userul exista deja in baza de date
         Optional<User> userByNume = userRepo.findUserByNume(createUserRequest.getNume());
@@ -52,7 +50,9 @@ public class UserService {
                 .username(createUserRequest.getUsername())
                 .password(createUserRequest.getPassword())
                 .build();
-        userRepo.saveAndFlush(user);
+      User user2=  userRepo.saveAndFlush(user);
+
+      return  CreateUserResponse.builder().user(user2).build();
     }
 
     @Transactional

@@ -1,20 +1,16 @@
 package ro.mycode.usercar.view;
 
-import com.sun.security.auth.NTUserPrincipal;
-import com.sun.tools.jconsole.JConsoleContext;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
-import ro.mycode.usercar.user.dtos.CreateUserRequest;
-import ro.mycode.usercar.user.dtos.UpdateUserRequest;
-import ro.mycode.usercar.user.exceptions.NoUpdate;
-import ro.mycode.usercar.user.exceptions.UserDoesntExistException;
-import ro.mycode.usercar.user.exceptions.UserExistException;
-import ro.mycode.usercar.user.exceptions.UserListEmptyException;
-import ro.mycode.usercar.user.models.User;
-import ro.mycode.usercar.user.service.UserService;
+import ro.mycode.usercar.User.dtos.CreateUserRequest;
+import ro.mycode.usercar.User.dtos.UpdateUserRequest;
+import ro.mycode.usercar.User.exceptions.NoUpdate;
+import ro.mycode.usercar.User.exceptions.UserDoesntExistException;
+import ro.mycode.usercar.User.exceptions.UserExistException;
+import ro.mycode.usercar.User.exceptions.UserListEmptyException;
+import ro.mycode.usercar.User.models.User;
+import ro.mycode.usercar.User.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 
